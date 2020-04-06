@@ -13,6 +13,12 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
+    'github' => [
+        'client_id' => env('GITHUB_CLIENT_ID'),
+        'client_secret' => env('GITHUB_CLIENT_SECRET'),
+        'redirect' => env('APP_URL') . '/integrate/github/callback',
+        'scopes' => env('GITHUB_CLIENT_SCOPES', ['no-scope', 'public_repo', 'read:user', 'read:org']),
+    ],
 
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
