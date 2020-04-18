@@ -2,28 +2,12 @@
 
 namespace App\Services;
 
-use App\Interfaces\Services\IntegrationServiceInterface;
 use App\Interfaces\Services\UserServiceInterface;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class UserService implements UserServiceInterface
 {
-    /**
-     * @var IntegrationServiceInterface $integrationService
-     */
-    public IntegrationServiceInterface $integrationService;
-
-    /**
-     * UserService constructor.
-     *
-     * @param IntegrationServiceInterface $integrationService
-     */
-    public function __construct(IntegrationServiceInterface $integrationService)
-    {
-        $this->integrationService = $integrationService;
-    }
-
     /**
      * @inheritDoc
      */
