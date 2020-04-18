@@ -2,18 +2,16 @@
 
 namespace App\Models;
 
-use App\Abilities\Friendable;
-use App\Traits\HasRoles;
-use App\Traits\HasUrl;
 use App\Traits\HasUUID;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use CanResetPassword, Friendable, HasRoles, HasUrl, HasUUID, Notifiable;
+    use CanResetPassword, HasApiTokens, HasUUID, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -33,6 +31,11 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * The attributes that should append to arrays.
+     *
+     * @var array
+     */
     protected $appends = [
         'full_name'
     ];
@@ -78,21 +81,5 @@ class User extends Authenticatable
     public function setEmailAttribute($value)
     {
         $this->attributes['email'] = Str::lower($value);
-    }
-
-    /**
-     * Get integrated services.
-     */
-    public function integrations()
-    {
-        return $this->hasMany('App\Models\Integration');
-    }
-
-    /**
-     * Get all of the teams for the user.
-     */
-    public function boards()
-    {
-        return $this->morphMany('App\Models\Board', 'morph');
     }
 }
