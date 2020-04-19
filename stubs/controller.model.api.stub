@@ -1,0 +1,86 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use {{ rootNamespace }}Http\Controllers\Controller;
+use App\Interfaces\Services\{{ model }}ServiceInterface;
+use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
+
+class {{ class }} extends Controller
+{
+    /**
+     * {{ model }} service.
+     *
+     * @var {{ model }}ServiceInterface
+     */
+    private {{ model }}ServiceInterface $service;
+
+    /**
+     * {{ model }}Controller constructor.
+     *
+     * @param {{ model }}ServiceInterface $service
+     */
+    public function __construct({{ model }}ServiceInterface $service)
+    {
+        $this->service = $service;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        return response($this->service->index());
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  {{ model }}Request  $request
+     * @return Response
+     * @throws ValidationException
+     */
+    public function store({{ model }}Request $request)
+    {
+        return response($this->service->store($request));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  string  ${{ modelVariable }}
+     * @return Response
+     */
+    public function show(string ${{ modelVariable }})
+    {
+        return response($this->service->show(${{ modelVariable }}));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  {{ model }}Request  $request
+     * @param  string ${{ modelVariable }}
+     * @return Response
+     * @throws ValidationException
+     */
+    public function update({{ model }}Request $request, string ${{ modelVariable }})
+    {
+        return response($this->service->update($request, ${{ modelVariable }}));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  string  ${{ modelVariable }}
+     * @return Response
+     */
+    public function destroy(string ${{ modelVariable }})
+    {
+        return response($this->service->destroy(${{ modelVariable }}));
+    }
+}
