@@ -178,6 +178,7 @@ return [
         /*
          * Project Service Providers
          */
+        App\Providers\Project\IntegrationServiceProvider::class,
         App\Providers\Project\UserServiceProvider::class,
     ],
 

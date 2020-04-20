@@ -5,11 +5,24 @@ namespace App\Services;
 use App\Interfaces\Services\IntegrationServiceInterface;
 use App\Models\Integration;
 use App\Models\User;
-use App\Repositories\IntegrationRepository;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Contracts\User as SocialiteUser;
+use Laravel\Socialite\Facades\Socialite;
 
 class IntegrationService implements IntegrationServiceInterface
 {
+    /**
+     * @inheritDoc
+     */
+    public function redirect(string $provider): RedirectResponse
+    {
+        return Socialite::driver($provider)
+            ->scopes(config("services.{$provider}.scopes"))
+            ->stateless()
+            ->redirect();
+    }
+
     /**
      * @inheritDoc
      */
@@ -28,27 +41,20 @@ class IntegrationService implements IntegrationServiceInterface
      */
     public function integrate(User $user, SocialiteUser $socialiteUser, string $provider): Integration
     {
-        $find = Integration::create([
+        return Integration::create([
             'user_id'       => $user->id,
             'provider_name' => $provider,
             'provider_id'   => $socialiteUser->getId(),
             'access_token'  => $socialiteUser->token,
             'profile'       => $socialiteUser->user,
         ]);
-
-        return $find;
     }
 
     /**
      * @inheritDoc
      */
-    public function retrieve(SocialiteUser $user, string $provider): Integration
+    public function integrations(User $user): Collection
     {
-        $find = Integration::with('user')->findWhere([
-            'provider_name' => $provider,
-            'provider_id'   => $user->getId(),
-        ])->first();
-
-        return $find;
+        return Integration::where('user_id', $user->id)->get();
     }
 }
