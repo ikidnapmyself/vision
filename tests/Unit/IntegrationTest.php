@@ -44,7 +44,11 @@ class IntegrationTest extends TestCase
      */
     public function testRedirect()
     {
-        $provider = factory(Integration::class)->make();
+        $provider = factory(Integration::class)
+            /**
+             * @todo only github supported yet.
+             */
+            ->make(['provider_name' => 'github']);
         $redirect = $this->service->redirect($provider->provider_name);
 
         $this->assertEquals(302, $redirect->getStatusCode());
